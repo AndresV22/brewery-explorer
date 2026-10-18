@@ -1,4 +1,4 @@
-import 'package:brewery_explorer/service/exceptions/brewery_exception.dart';
+import 'package:brewery_explorer/core/errors/brewery_exception.dart';
 
 class NotFoundException extends BreweryException {
   const NotFoundException([
