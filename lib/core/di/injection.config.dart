@@ -25,6 +25,10 @@ import 'package:brewery_explorer/features/breweries/domain/use_cases/get_brewery
     as _i1024;
 import 'package:brewery_explorer/features/breweries/domain/use_cases/search_breweries_use_case.dart'
     as _i910;
+import 'package:brewery_explorer/features/breweries/presentation/controllers/brewery_detail_cubit.dart'
+    as _i259;
+import 'package:brewery_explorer/features/breweries/presentation/controllers/brewery_list_bloc.dart'
+    as _i931;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -56,6 +60,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i910.SearchBreweriesUseCase>(
       () => _i910.SearchBreweriesUseCase(gh<_i406.BreweryRepository>()),
+    );
+    gh.factory<_i259.BreweryDetailCubit>(
+      () => _i259.BreweryDetailCubit(gh<_i1024.GetBreweryByIdUseCase>()),
+    );
+    gh.factory<_i931.BreweryListBloc>(
+      () => _i931.BreweryListBloc(gh<_i371.GetBreweriesUseCase>()),
     );
     return this;
   }
