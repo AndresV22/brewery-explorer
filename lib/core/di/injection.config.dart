@@ -65,7 +65,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i259.BreweryDetailCubit(gh<_i1024.GetBreweryByIdUseCase>()),
     );
     gh.factory<_i931.BreweryListBloc>(
-      () => _i931.BreweryListBloc(gh<_i371.GetBreweriesUseCase>()),
+      () => _i931.BreweryListBloc(
+        gh<_i371.GetBreweriesUseCase>(),
+        gh<_i910.SearchBreweriesUseCase>(),
+      ),
     );
     return this;
   }

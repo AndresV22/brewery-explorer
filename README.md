@@ -16,12 +16,12 @@ flutter run
 - Lista paginada con loading / error / empty
 - Detalle (dirección, teléfono, sitio web)
 - Navegación lista → detalle
+- Búsqueda con debounce (`bloc_concurrency`)
 
 Arquitectura por features: `core/` + `features/breweries/` (data / domain / presentation).
 
 ## Pendiente
 
-- Búsqueda con debounce
 - Ordenar por distancia
 - Mapa
 - Tests y pulido del README
