@@ -1,62 +1,63 @@
 # Brewery Explorer
 
-Aplicación Flutter para explorar cervecerías usando la API pública de [Open Brewery DB](https://www.openbrewerydb.org/).
+A Flutter app for browsing breweries using the public [Open Brewery DB](https://www.openbrewerydb.org/) API.
 
-## Ejecución
+## Prerequisites
 
-Instalar las dependencias y generar los archivos necesarios:
+- Flutter SDK compatible with Dart `^3.13.4` (see `pubspec.yaml`)
+- An active internet connection (the app calls the Open Brewery DB HTTP API; there is no offline mode)
+
+## How to Run
 
 ```bash
 flutter pub get
 dart run build_runner build
-```
-
-Ejecutar la aplicación:
-
-```bash
 flutter run
 ```
 
-Ejecutar los tests:
+Run tests with:
 
 ```bash
 flutter test
 ```
 
-## Implementación
+## What I Completed
 
-La aplicación cuenta con dos pantallas: un listado de cervecerías y una vista con el detalle de cada una.
+- Paginated brewery list showing name, type, and city.
+- Brewery detail screen with address, phone number, and website.
+- Loading, error, and empty states.
+- Layered structure with `data`, `domain`, and `presentation` under `features/breweries/`.
+- Dependency injection using `get_it` and `injectable`.
+- Typed exceptions and Bloc/Cubit state management.
+- Search with debounce using `bloc_concurrency` and `restartable`.
+- `BreweryListBloc` unit tests covering loading, errors, empty results, and search. UI and detail-screen coverage is limited.
 
-- Listado paginado con nombre, tipo y ciudad.
-- Estados de carga, error y lista vacía.
-- Detalle con nombre, dirección, teléfono y sitio web.
-- Manejo de errores de la API.
-- Separación por capas en `core/` y `features/breweries/`, con `data`, `domain` y `presentation`.
-- Inyección de dependencias con `get_it` e `injectable`.
-- Estados de UI gestionados con Bloc/Cubit.
-- Búsqueda con debounce para evitar solicitudes innecesarias.
-- Tests del `BreweryListBloc` para carga inicial, errores, resultados vacíos y búsqueda.
+## What I Left Out
 
-## Decisiones técnicas
+- Map integration with Mapbox.
+- Distance-based sorting using Geolocator.
+- Offline caching.
+- Pixel-perfect UI, authentication, CI/CD, and full test coverage.
 
-Elegí `flutter_bloc` para manejar el estado y `bloc_concurrency` para controlar las búsquedas. La idea fue mantener la lógica fuera de los widgets y dejar que el Bloc se encargue de transformar los resultados y errores en estados que la UI pueda representar.
+I focused on the main requirements and chose search with debounce as my bonus feature.
 
-Organicé el código por feature y separé las capas de datos, dominio y presentación. Para una aplicación de este tamaño puede parecer algo más de estructura de la necesaria, pero permite mantener las responsabilidades separadas y facilita agregar funcionalidades después.
+## Trade-offs
 
-Para el desarrollo usé Gitflow: cada funcionalidad (lista, búsqueda, tests, etc.) vivió en su propia rama `feature/*` a partir de `develop`. Me ayudó a mantener el trabajo ordenado y a revisar los cambios por partes antes de integrarlos.
+- Used `flutter_bloc` instead of GetX to keep state management explicit and use the Bloc ecosystem for event handling and testing.
+- Used a feature-based, layered structure. It adds some boilerplate for a small app, but keeps responsibilities separate.
+- Kept the service locator in the app setup and used `BlocProvider` to provide Blocs and Cubits to the UI.
 
-La inyección de dependencias se configura al iniciar la aplicación. Las páginas reciben sus Blocs y Cubits mediante `BlocProvider`, sin acceder directamente al service locator.
+## What I Would Improve
 
-También agregué tests para los principales escenarios del listado, incluida la búsqueda con debounce.
+On the current codebase:
 
-## Pendiente
+- Keep Dio (`CancelToken` / `DioException`) inside the data layer; map cancellations to a typed domain exception so domain and presentation stay HTTP-agnostic.
+- Move `TextEditingController` and `ScrollController` out of `BreweryListBloc` and into the UI, so the Bloc only handles events and state.
+- Surface pagination failures to the user (today load-more errors only clear `isLoadingMore` with no feedback or retry).
 
-Dejé fuera algunas funcionalidades que podrían agregarse después:
+As follow-ups:
 
-- Mapa con Mapbox.
-- Ordenamiento por distancia usando Geolocator.
-- Caché local para consultar los últimos resultados disponibles sin conexión.
-- Tests adicionales para el detalle y la paginación.
-- Mejoras en la experiencia de búsqueda. Quizás debounce podría aumentar unos milisegundos.
-
-Priorizé completar el flujo principal y dejar una base organizada, con manejo de estados y errores, y con búsqueda de cervecerías antes de agregar funcionalidades adicionales.
+- Add distance-based sorting and map integration.
+- Cache the last successful list for offline use.
+- Add more tests for the detail screen and pagination.
+- Improve the search experience with clearer cancellation and loading feedback.
