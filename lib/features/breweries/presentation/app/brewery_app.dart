@@ -1,3 +1,4 @@
+import 'package:brewery_explorer/core/theme/app_theme.dart';
 import 'package:brewery_explorer/features/breweries/presentation/app/app_factories.dart';
 import 'package:brewery_explorer/features/breweries/presentation/controllers/brewery_list_event.dart';
 import 'package:brewery_explorer/features/breweries/presentation/pages/brewery_list_page.dart';
@@ -17,10 +18,7 @@ class BreweryApp extends StatelessWidget {
     return MaterialApp(
       title: 'Brewery Explorer',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.brown),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.light,
       home: BlocProvider(
         create: (_) => factories.createListBloc()
           ..add(const BreweryListStarted()),
